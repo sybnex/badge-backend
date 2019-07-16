@@ -6,11 +6,11 @@ import time
 import uuid
 import sqlite3
 import logging
-import threading
 
 logging.basicConfig(stream=sys.stdout,
                     level=logging.INFO,
                     format="%(asctime)s %(levelname)-5s: %(message)s")
+
 
 class SQLService():
 
@@ -58,9 +58,9 @@ class SQLService():
 
     def generateBadge(self):
         while (not self.hashval):
-            hash_value   = str(uuid.uuid4())
+            hash_value = str(uuid.uuid4())
             self.badgeId = hash_value[:8]
-            self.token   = hash_value[-12:]
+            self.token = hash_value[-12:]
             self.checkDupId()
 
         self.saveBadge()
@@ -72,10 +72,10 @@ class SQLService():
                 '%s' % self.token)
         self.executeSQL(query, args)
 
-    def updateBadge(self, name, value, ncolor = None, vcolor = None):
+    def updateBadge(self, name, value, ncolor=None, vcolor=None):
         query = """UPDATE badges 
-                     SET NAME = ?, VALUE = ?, NCOLOR = ?, VCOLOR = ?
-                     WHERE ID = ? AND TOKEN = ?"""
+                   SET NAME = ?, VALUE = ?, NCOLOR = ?, VCOLOR = ?
+                   WHERE ID = ? AND TOKEN = ?"""
         args = ("%s" % name, 
                 "%s" % value,
                 "%s" % ncolor,
@@ -86,7 +86,7 @@ class SQLService():
 
     def getBadge(self):
         query = "SELECT * FROM badges WHERE ID = ? AND TOKEN ?"
-        return self.executeSQL(query, (self.badgeId,self.token,))
+        return self.executeSQL(query, (self.badgeId, self.token,))
  
     def readMessage(self, pk_id):
         query = "SELECT * FROM badges WHERE ID = ?"
@@ -98,7 +98,7 @@ class SQLService():
 
     def deleteMessage(self):
         query = "DELETE FROM badges WHERE ID = ? AND TOKEN = ?"
-        return self.executeSQL(query, (self.badgeId,self.token,))
+        return self.executeSQL(query, (self.badgeId, self.token,))
 
     def countMessage(self):
         query = "SELECT count(*) FROM badges"
