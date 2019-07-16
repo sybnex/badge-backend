@@ -43,10 +43,10 @@ class SQLService():
         query = """CREATE TABLE IF NOT EXISTS
                    badges(ID TEXT PRIMARY KEY NOT NULL,
                           DATE TEXT NOT NULL,
-                          TOKEN TEXT NOT NULL CHECK(DATA > ' '))
-                          NAME TEXT NOT NULL CHECK(DATA > ' '))
-                          VALUE TEXT NOT NULL CHECK(DATA > ' '))
-                          NCOLOR TEXT NOT NULL CHECK(DATA > ' '))
+                          TOKEN TEXT NOT NULL CHECK(DATA > ' ')
+                          NAME TEXT NOT NULL CHECK(DATA > ' ')
+                          VALUE TEXT NOT NULL CHECK(DATA > ' ')
+                          NCOLOR TEXT NOT NULL CHECK(DATA > ' ')
                           VCOLOR TEXT NOT NULL CHECK(DATA > ' '))"""
         self.executeSQL(query)
 

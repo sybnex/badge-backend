@@ -9,7 +9,7 @@ test_value = "success"
 
 def test_initCount():
     init.createTable()
-    assert init.countMessage() == (0,)
+    assert init.countMessage() == None
 
 def test_generateBadge():
     init.generateBadge()
