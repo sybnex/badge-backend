@@ -10,7 +10,7 @@ RUN apk --no-cache add python3 sqlite \
 
 COPY app /app
 
-RUN chown -R notiz /app/ \
+RUN chown -R badge /app/ \
     && flake8 /app/libs/*.py \
     && flake8 /app/run.py \
     && python3 -m compileall /app/*.py \ 
