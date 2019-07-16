@@ -9,7 +9,7 @@ test_value = "success"
 
 def test_initCount():
     init.createTable()
-    assert init.countMessage() == None
+    assert init.countMessage() == (0,)
 
 def test_generateBadge():
     init.generateBadge()
@@ -31,7 +31,3 @@ def test_initFinalDelete():
 def test_initDeleteOld():
     assert init.deleteOldMessages() == None
 
-def test_sqlShowTables():
-    query = "SELECT * FROM sqlite_master;"
-    result = init.executeSQL(query)
-    assert result == ""
