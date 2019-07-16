@@ -39,7 +39,7 @@ class CreateBadge(Resource):
         return {"get_url": getUrl, "put_url": putUrl}, 200
 
 
-@api.route("/<int:id>")
+@api.route("/<id>")
 class UseBadge(Resource):
 
     @api.doc(params={'id': 'An ID'})
