@@ -19,6 +19,9 @@ def test_updateBadge():
     init.updateBadge(test_name, test_value)
     assert init.readMessage(init.badgeId)[4] == test_value
 
+def test_initGetBadge():
+    assert init.getBadge()[3] == test_name
+
 def test_initReadAll():
     assert init.readAllMessages()[0][2] == init.token
 
@@ -31,3 +34,6 @@ def test_initFinalDelete():
 def test_initDeleteOld():
     assert init.deleteOldMessages() == None
 
+def test_initDupId():
+    init.generateBadge()
+    assert init.checkDupId() == True
