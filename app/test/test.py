@@ -4,39 +4,34 @@
 from libs.sqlite import SQLService
 init = SQLService(database = ":memory:")
 
-testmessage = "This is a test."
+test_name  = "Test"
+test_value = "success"
 
-def test_generateId():
-    assert len(init.generateId()) == 8
-
+def test_generateBadge():
+    init.generateBadge()
+    assert len(init.badgeId) == 8
 
 def test_initCount():
     init.createTable()
     assert init.countMessage() == (0,)
 
-
 def test_initSave():
-    init.saveMessage(testmessage)
-    assert init.readMessage(init.hashval)[2] == testmessage
+    init.saveBadge()
+    assert init.readMessage(init.badgeId)[0] == init.badgeId
 
+def test_updateBadge():
+    init.updateBadge(test_name, test_value)
+    assert init.readMessage(init.badgeId)[4] == test_value
 
 def test_initReadAll():
-    assert init.readAllMessages()[0][2] == testmessage
-
+    assert init.readAllMessages()[0][2] == init.token
 
 def test_initDelete():
-    assert init.deleteMessage(init.hashval) == None
-
+    assert init.deleteMessage() == None
 
 def test_initFinalDelete():
-    assert init.readMessage(init.hashval) == None
-
+    assert init.readMessage(init.badgeId) == None
 
 def test_initDeleteOld():
     assert init.deleteOldMessages() == None
 
-
-def test_generateId2():
-    init.saveMessage(testmessage)
-    init.checkDupId()
-    assert init.hashval == None

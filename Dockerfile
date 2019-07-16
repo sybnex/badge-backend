@@ -7,7 +7,7 @@ COPY pip.conf /etc
 
 RUN apk --no-cache add python3 sqlite \
     && pip3 install --upgrade pip \
-    && pip3 install flask flask-restplus pytest pytest-cov flake8 gunicorn --no-cache-dir \
+    && pip3 install flask flask-restplus pybadge pytest pytest-cov flake8 gunicorn --no-cache-dir \
     && adduser -D badge
 
 COPY app /app
