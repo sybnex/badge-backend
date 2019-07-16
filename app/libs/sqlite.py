@@ -40,14 +40,14 @@ class SQLService():
             cur.close()
 
     def createTable(self):
-        query = """CREATE TABLE IF NOT EXISTS
-                   badges(ID TEXT PRIMARY KEY NOT NULL,
-                          DATE TEXT NOT NULL,
-                          TOKEN TEXT NOT NULL CHECK(DATA > ' '),
-                          NAME TEXT,
-                          VALUE TEXT,
-                          NCOLOR TEXT,
-                          VCOLOR TEXT)"""
+        query = """CREATE TABLE IF NOT EXISTS badges (
+                     ID TEXT PRIMARY KEY NOT NULL,
+                     DATE TEXT NOT NULL,
+                     TOKEN TEXT NOT NULL CHECK(TOKEN > ' '),
+                     NAME TEXT,
+                     VALUE TEXT,
+                     NCOLOR TEXT,
+                     VCOLOR TEXT)"""
         self.executeSQL(query)
 
     def checkDupId(self):
