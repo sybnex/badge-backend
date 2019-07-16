@@ -58,7 +58,7 @@ class UseBadge(Resource):
 
     @api.doc(params={'id': 'An ID', "token": "Access token"})
     @api.doc(responses={403: 'Not Authorized'})
-    def put(self, id, token, name, value, ncolor, vcolor):
+    def put(self, id, token, name, value, ncolor=None, vcolor=None):
         """
         Changes the Badge on the ID with Token
         """
