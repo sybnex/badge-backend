@@ -31,3 +31,7 @@ def test_initFinalDelete():
 def test_initDeleteOld():
     assert init.deleteOldMessages() == None
 
+def test_sqlShowTables():
+    query = "SELECT * FROM sqlite_master;"
+    result = init.executeSQL(query)
+    assert result = ""
