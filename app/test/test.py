@@ -34,4 +34,4 @@ def test_initDeleteOld():
 def test_sqlShowTables():
     query = "SELECT * FROM sqlite_master;"
     result = init.executeSQL(query)
-    assert result = ""
+    assert result == ""
