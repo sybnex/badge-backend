@@ -85,7 +85,7 @@ class SQLService():
         self.executeSQL(query, args)
 
     def getBadge(self):
-        query = "SELECT * FROM badges WHERE ID = ? AND TOKEN ?"
+        query = "SELECT * FROM badges WHERE ID = ? AND TOKEN = ?"
         return self.executeSQL(query, (self.badgeId, self.token,))
 
     def readMessage(self, pk_id):
