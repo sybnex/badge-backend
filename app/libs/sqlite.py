@@ -73,10 +73,10 @@ class SQLService():
         self.executeSQL(query, args)
 
     def updateBadge(self, name, value, ncolor=None, vcolor=None):
-        query = """UPDATE badges 
+        query = """UPDATE badges
                    SET NAME = ?, VALUE = ?, NCOLOR = ?, VCOLOR = ?
                    WHERE ID = ? AND TOKEN = ?"""
-        args = ("%s" % name, 
+        args = ("%s" % name,
                 "%s" % value,
                 "%s" % ncolor,
                 "%s" % vcolor,
@@ -87,7 +87,7 @@ class SQLService():
     def getBadge(self):
         query = "SELECT * FROM badges WHERE ID = ? AND TOKEN ?"
         return self.executeSQL(query, (self.badgeId, self.token,))
- 
+
     def readMessage(self, pk_id):
         query = "SELECT * FROM badges WHERE ID = ?"
         return self.executeSQL(query, (pk_id,))
