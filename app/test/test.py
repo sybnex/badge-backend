@@ -7,17 +7,13 @@ init = SQLService(database = ":memory:")
 test_name  = "Test"
 test_value = "success"
 
-def test_generateBadge():
-    init.generateBadge()
-    assert len(init.badgeId) == 8
-
 def test_initCount():
     init.createTable()
     assert init.countMessage() == (0,)
 
-def test_initSave():
-    init.saveBadge()
-    assert init.readMessage(init.badgeId)[0] == init.badgeId
+def test_generateBadge():
+    init.generateBadge()
+    assert len(init.badgeId) == 8
 
 def test_updateBadge():
     init.updateBadge(test_name, test_value)

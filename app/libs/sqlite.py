@@ -57,7 +57,7 @@ class SQLService():
         return False
 
     def generateBadge(self):
-        while (not self.hashval):
+        while (not self.badgeId):
             hash_value = str(uuid.uuid4())
             self.badgeId = hash_value[:8]
             self.token = hash_value[-12:]
