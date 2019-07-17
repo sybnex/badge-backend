@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, render_template, Markup
+from flask import Flask, request, Response
 from flask_restplus import Api, Resource
 from libs.sqlite import SQLService
-from pybadges import badge as badgeGen
+from pybadges import badge as badge
 
 
 import sys
@@ -14,7 +14,7 @@ logging.basicConfig(stream=sys.stdout,
 
 
 app = Flask(__name__)
-api = Api(app)
+api = Api(app, version="1.0", title="Badgeservice API")
 
 init = SQLService()
 init.createTable()
@@ -28,50 +28,70 @@ class CreateBadge(Resource):
         """
         Creates a new Badge ID in the DB
         """
-        badge = SQLService()
-        badge.generateBadge()
-
+        badgen = SQLService()
+        badgen.generateBadge()
+        badgen.updateBadge()
         getUrl = "%s%s" % (request.url_root,
-                           badge.badgeId)
+                           badgen.badgeId)
         putUrl = "%s%s?token=%s" % (request.url_root,
-                                    badge.badgeId,
-                                    badge.token)
+                                    badgen.badgeId,
+                                    badgen.token)
         return {"get_url": getUrl, "put_url": putUrl}, 200
 
 
 @api.route("/<id>")
 class UseBadge(Resource):
 
-    @api.doc(params={'id': 'An ID'})
+    @api.doc(params={"id": "Badge ID"})
+    @api.doc(responses={200: "Success",
+                        404: "Not Found"})
+    @api.representation('text/xml')
     def get(self, id):
         """
         Returns the Badge with the given ID
         """
-        badge = SQLService()
-        badge.getBadge()
-        svg = badgeGen(left_text=badge.name,
-                       right_text=badge.value,
-                       left_color=badge.name_color,
-                       right_color=badge.value_color)
+        badgen = SQLService(id)
+        if not badgen.getBadge():
+            api.abort(404)
+        logging.info("ID: %s, Name: %s, Val: %s" % (badgen.badgeId,
+                                                    badgen.name,
+                                                    badgen.value))
+        svg = badge(left_text=badgen.name,
+                    right_text=badgen.value,
+                    left_color=badgen.name_color,
+                    right_color=badgen.value_color)
 
-        return render_template("svg.jinja", svg=Markup(svg))
+        # return render_template("svg.jinja", svg=Markup(svg))
+        return Response(svg, mimetype='text/xml')
 
-    @api.doc(params={'id': 'An ID', "token": "Access token"})
-    @api.doc(responses={403: 'Not Authorized'})
+    @api.doc(params={"id": 'Badge ID',
+                     "token": "Access token",
+                     "name": "Left name for Badge",
+                     "value": "Right name for Badge",
+                     "ncolor": "Color of name",
+                     "vcolor": "Color of value"})
+    @api.doc(responses={200: "Success",
+                        403: "Not Authorized"})
     def put(self, id):
         """
         Changes the Badge on the ID with Token
         """
-        token = request.form['token']if "token" in request.form else None
-        name = request.form['name'] if "name" in request.form else None
-        value = request.form['value'] if "value" in request.form else None
-        ncolor = request.form['ncolor'] if "ncolor" in request.form else None
-        vcolor = request.form['vcolor'] if "vcolor" in request.form else None
+        token = request.args.get("token")
+        badgen = SQLService(id, token)
 
-        badge = SQLService(id, token)
-        if not badge.getBadge():
+        if not badgen.validateToken():
+            logging.error("Could not validate token!")
             api.abort(403)
-        badge.updateBadge(name, value, ncolor, vcolor)
+
+        badgen.name = request.args.get("name")
+        badgen.value = request.args.get("value")
+        badgen.ncolor = request.args.get("ncolor")
+        badgen.vcolor = request.args.get("vcolor")
+        logging.info("Changing: ID: %s, Name: %s, Val: %s" % (badgen.badgeId,
+                                                              badgen.name,
+                                                              badgen.value))
+
+        badgen.updateBadge()
         return {}
 
 

@@ -17,10 +17,10 @@ class SQLService():
     def __init__(self, badgeId=None, token=None, database="/app/db/notiz.db"):
         self.badgeId = badgeId
         self.token = token
-        self.name = None
-        self.value = None
-        self.name_color = None
-        self.value_color = None
+        self.name = "example"
+        self.value = "badge"
+        self.name_color = "grey"
+        self.value_color = "blue"
         self.conn = sqlite3.connect(database)
 
     def executeSQL(self, sql, args=(), fetchall=False):
@@ -72,19 +72,33 @@ class SQLService():
                 '%s' % self.token)
         self.executeSQL(query, args)
 
-    def updateBadge(self, name, value, ncolor=None, vcolor=None):
+    def updateBadge(self):
         query = """UPDATE badges
                    SET NAME = ?, VALUE = ?, NCOLOR = ?, VCOLOR = ?
                    WHERE ID = ? AND TOKEN = ?"""
-        args = ("%s" % name,
-                "%s" % value,
-                "%s" % ncolor,
-                "%s" % vcolor,
+        args = ("%s" % self.name,
+                "%s" % self.value,
+                "%s" % self.name_color,
+                "%s" % self.value_color,
                 '%s' % self.badgeId,
                 '%s' % self.token)
         self.executeSQL(query, args)
 
     def getBadge(self):
+        query = "SELECT name, value, ncolor, vcolor FROM badges WHERE id = ?"
+        result = self.executeSQL(query, (self.badgeId,))
+        try:
+            logging.info(result)
+            self.name = result[0]
+            self.value = result[1]
+            self.ncolor = result[2]
+            self.vcolor = result[3]
+        except Exception:
+            return False
+        else:
+            return True
+
+    def validateToken(self):
         query = "SELECT * FROM badges WHERE ID = ? AND TOKEN = ?"
         return self.executeSQL(query, (self.badgeId, self.token,))
 
