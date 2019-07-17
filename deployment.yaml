@@ -1,0 +1,71 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: badge-service
+  namespace: tools
+  labels:
+    name: badge
+spec:
+  ports:
+  - name: http
+    port: 5000
+    protocol: TCP
+    targetPort: 5000
+  selector:
+    name: badge
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: badge-deploy
+  namespace: tools
+spec:
+  selector:
+    matchLabels:
+      app: badge
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: badge
+    spec:
+      securityContext:
+        fsGroup: 1000
+      containers:
+      - name: badge
+        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        resources:
+          limits:
+            cpu: 500m
+            memory: 50Mi
+          requests:
+            cpu: 100m
+            memory: 10Mi
+        ports:
+        - containerPort: 5000
+          protocol: TCP
+        volumeMounts:
+        - mountPath: /app/db
+          name: badge-data
+        livenessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 300
+          timeoutSeconds: 30
+      volumes:
+      - name: badge-data
+        persistentVolumeClaim:
+          claimName: badge-pvc
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: badge-pvc
+  namespace: tools
+spec:
+  accessModes:
+  - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1Gi

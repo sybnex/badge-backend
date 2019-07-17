@@ -63,9 +63,9 @@ class SQLService():
             self.token = hash_value[-12:]
             self.checkDupId()
 
-        self.saveBadge()
+        self.createBadge()
 
-    def saveBadge(self):
+    def createBadge(self):
         query = "INSERT INTO badges (ID, DATE, TOKEN) VALUES (?, ?, ?)"
         args = ('%s' % self.badgeId,
                 time.strftime('%Y-%m-%d'),
@@ -83,16 +83,21 @@ class SQLService():
                 '%s' % self.badgeId,
                 '%s' % self.token)
         self.executeSQL(query, args)
+        logging.info("Update: %s => %s/%s with %s/%s" % (self.badgeId,
+                                                         self.name,
+                                                         self.value,
+                                                         self.name_color,
+                                                         self.value_color))
 
     def getBadge(self):
         query = "SELECT name, value, ncolor, vcolor FROM badges WHERE id = ?"
         result = self.executeSQL(query, (self.badgeId,))
         try:
-            logging.info(result)
+            logging.info("From DB: %s" % result)
             self.name = result[0]
             self.value = result[1]
-            self.ncolor = result[2]
-            self.vcolor = result[3]
+            self.name_color = result[2]
+            self.value_color = result[3]
         except Exception:
             return False
         else:

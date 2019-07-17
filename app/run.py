@@ -53,15 +53,12 @@ class UseBadge(Resource):
         badgen = SQLService(id)
         if not badgen.getBadge():
             api.abort(404)
-        logging.info("ID: %s, Name: %s, Val: %s" % (badgen.badgeId,
-                                                    badgen.name,
-                                                    badgen.value))
+
         svg = badge(left_text=badgen.name,
                     right_text=badgen.value,
                     left_color=badgen.name_color,
                     right_color=badgen.value_color)
 
-        # return render_template("svg.jinja", svg=Markup(svg))
         return Response(svg, mimetype='text/xml')
 
     @api.doc(params={"id": 'Badge ID',
@@ -85,11 +82,8 @@ class UseBadge(Resource):
 
         badgen.name = request.args.get("name")
         badgen.value = request.args.get("value")
-        badgen.ncolor = request.args.get("ncolor")
-        badgen.vcolor = request.args.get("vcolor")
-        logging.info("Changing: ID: %s, Name: %s, Val: %s" % (badgen.badgeId,
-                                                              badgen.name,
-                                                              badgen.value))
+        badgen.name_color = request.args.get("ncolor")
+        badgen.value_color = request.args.get("vcolor")
 
         badgen.updateBadge()
         return {}

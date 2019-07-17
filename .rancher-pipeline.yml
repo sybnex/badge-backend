@@ -7,5 +7,14 @@ stages:
       tag: sybex/badgeservice:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: index.docker.io
+- name: deploy
+  steps:
+  - applyYamlConfig:
+      path: ./deployment.yaml
 timeout: 60
-notification: {}
+notification:
+  recipients:
+  - recipient: sybnex@gmail.com
+    notifier: local:n-zdq9d
+  condition:
+  - Failed
