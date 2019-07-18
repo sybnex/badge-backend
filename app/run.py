@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-from flask import Flask, request, Response
+from flask import Flask, request, Response, url_for
 from flask_restplus import Api, Resource
 from libs.sqlite import SQLService
 from pybadges import badge as badge
@@ -13,8 +13,17 @@ logging.basicConfig(stream=sys.stdout,
                     format="%(asctime)s %(levelname)-5s: %(message)s")
 
 
+class MyApi(Api):
+    @property
+    def specs_url(self):
+        """Monkey patch for HTTPS"""
+        scheme = 'http' if '5000' in self.base_url else 'https'
+        return url_for(self.endpoint('specs'), _external=True, _scheme=scheme)
+
+
 app = Flask(__name__)
-api = Api(app, version="1.0", title="Badgeservice API")
+api = MyApi(app, version="1.0", title="Badgeservice API",
+            description="A simple API")
 
 init = SQLService()
 init.createTable()
