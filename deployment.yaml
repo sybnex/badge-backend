@@ -37,7 +37,7 @@ spec:
         resources:
           limits:
             cpu: 500m
-            memory: 50Mi
+            memory: 100Mi
           requests:
             cpu: 100m
             memory: 10Mi
@@ -47,12 +47,18 @@ spec:
         volumeMounts:
         - mountPath: /app/db
           name: badge-data
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 5000
+          initialDelaySeconds: 2
+          timeoutSeconds: 10
         livenessProbe:
           httpGet:
             path: /
             port: 5000
-          initialDelaySeconds: 300
-          timeoutSeconds: 30
+          initialDelaySeconds: 5
+          timeoutSeconds: 10
       volumes:
       - name: badge-data
         persistentVolumeClaim:

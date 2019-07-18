@@ -26,7 +26,7 @@ class CreateBadge(Resource):
 
     def post(self):
         """
-        Creates a new Badge ID in the DB
+        Creates a new Badge ID in the DB with default values
         """
         badgen = SQLService()
         badgen.generateBadge()
