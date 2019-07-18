@@ -54,7 +54,7 @@ class UseBadge(Resource):
     @api.doc(params={"id": "Badge ID"})
     @api.doc(responses={200: "Success",
                         404: "Not Found"})
-    @api.representation('text/xml')
+    @api.representation('image/svg+xml')
     def get(self, id):
         """
         Returns the Badge with the given ID
@@ -69,7 +69,7 @@ class UseBadge(Resource):
                     left_color=badgen.name_color,
                     right_color=badgen.value_color)
 
-        return Response(svg, mimetype='text/xml')
+        return Response(svg, mimetype='image/svg+xml')
 
     @api.doc(params={"id": 'Badge ID',
                      "token": "Access token",
