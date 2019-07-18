@@ -93,12 +93,13 @@ class SQLService():
         query = "SELECT name, value, ncolor, vcolor FROM badges WHERE id = ?"
         result = self.executeSQL(query, (self.badgeId,))
         try:
-            logging.info("From DB: %s" % result)
+            logging.info("From DB: %s" % str(result))
             self.name = result[0]
             self.value = result[1]
             self.name_color = result[2]
             self.value_color = result[3]
-        except Exception:
+        except Exception as error:
+            logging.error("Error in DB: %s" % error)
             return False
         else:
             return True

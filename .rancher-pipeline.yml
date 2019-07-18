@@ -3,7 +3,7 @@ stages:
   steps:
   - runScriptConfig:
       image: byrnedo/alpine-curl
-      shellScript: curl "https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=build&value=running&vcolor=yellow"
+      shellScript: curl -XPUT "https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=build&value=running&vcolor=yellow"
     envFrom:
     - sourceName: badge-token
       sourceKey: token
@@ -20,7 +20,7 @@ stages:
       path: ./deployment.yaml
   - runScriptConfig:
       image: byrnedo/alpine-curl
-      shellScript: curl "https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=build&value=success&vcolor=green"
+      shellScript: curl -XPUT "https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=build&value=success&vcolor=green"
     envFrom:
     - sourceName: badge-token
       sourceKey: token

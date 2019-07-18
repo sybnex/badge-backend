@@ -59,8 +59,8 @@ class UseBadge(Resource):
         """
         Returns the Badge with the given ID
         """
-        logging.info("Get badge with ID: %s" % id)
         badgen = SQLService(id)
+        logging.info("Get badge with ID: %s" % badgen.badgeId)
         if not badgen.getBadge():
             api.abort(404)
 
