@@ -1,24 +1,31 @@
 stages:
 - name: build
   steps:
+  - runScriptConfig:
+      image: byrnedo/alpine-curl
+      shellScript: curl "https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=build&value=running&vcolor=yellow"
+    envFrom:
+    - sourceName: badge-token
+      sourceKey: token
+      targetKey: TOKEN
   - publishImageConfig:
       dockerfilePath: ./Dockerfile
       buildContext: .
       tag: sybex/badgeservice:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: index.docker.io
-  - runScriptConfig:
-      image: alpine
-      shellScript: curl https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=build&value=running&vcolor=yellow
-    envFrom:
-    - sourceName: pipeline-api-key
-      sourceKey: API_TOKEN
-      targetKey: TOKEN
 - name: deploy
   steps:
   - applyYamlConfig:
       path: ./deployment.yaml
-timeout: 60
+  - runScriptConfig:
+      image: byrnedo/alpine-curl
+      shellScript: curl "https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=build&value=success&vcolor=green"
+    envFrom:
+    - sourceName: badge-token
+      sourceKey: token
+      targetKey: TOKEN
+imeout: 60
 notification:
   recipients:
   - recipient: sybnex@gmail.com

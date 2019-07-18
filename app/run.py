@@ -59,6 +59,7 @@ class UseBadge(Resource):
         """
         Returns the Badge with the given ID
         """
+        logging.info("Get badge with ID: %s" % id)
         badgen = SQLService(id)
         if not badgen.getBadge():
             api.abort(404)
@@ -82,6 +83,7 @@ class UseBadge(Resource):
         """
         Changes the Badge on the ID with Token
         """
+        logging.info("Change badge with ID: %s" % id)
         token = request.args.get("token")
         badgen = SQLService(id, token)
 
