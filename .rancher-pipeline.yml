@@ -3,7 +3,7 @@ stages:
   steps:
   - runScriptConfig:
       image: byrnedo/alpine-curl
-      shellScript: curl -XPUT "https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=build&value=running&vcolor=yellow"
+      shellScript: curl -XPUT "https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=pipeline&value=building&ncolor=grey&vcolor=yellow"
     envFrom:
     - sourceName: badge-token
       sourceKey: token
@@ -20,12 +20,12 @@ stages:
       path: ./deployment.yaml
   - runScriptConfig:
       image: byrnedo/alpine-curl
-      shellScript: curl -XPUT "https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=build&value=success&vcolor=green"
+      shellScript: curl -XPUT "https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=pipeline&value=success&ncolor=grey&vcolor=green"
     envFrom:
     - sourceName: badge-token
       sourceKey: token
       targetKey: TOKEN
-imeout: 60
+timeout: 60
 notification:
   recipients:
   - recipient: sybnex@gmail.com
