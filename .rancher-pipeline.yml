@@ -7,6 +7,13 @@ stages:
       tag: sybex/badgeservice:${CICD_EXECUTION_SEQUENCE}
       pushRemote: true
       registry: index.docker.io
+  - runScriptConfig:
+      image: alpine
+      shellScript: curl https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=build&value=running&vcolor=yellow
+    envFrom:
+    - sourceName: pipeline-api-key
+      sourceKey: API_TOKEN
+      targetKey: TOKEN
 - name: deploy
   steps:
   - applyYamlConfig:
