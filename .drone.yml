@@ -1,0 +1,23 @@
+kind: pipeline
+name: badge-backend
+
+steps:
+- name: build
+  image: plugins/docker
+  settings:
+    repo: sybex/badgeservice
+    tags:
+      - latest
+      - ${DRONE_BUILD_NUMBER}
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+
+- name: send
+  image: plugins/webhook
+  settings:
+    password:
+      from_secret: badge-backend-token
+    method: PUT
+    urls: https://badge.julina.ch/1f2afea1?token=${password}&name=version&value=${DRONE_BUILD_NUMBER}&ncolor=grey&vcolor=blue"
