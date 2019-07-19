@@ -34,3 +34,9 @@ steps:
     token:
       from_secret: pipeline_bot
     to: 146910928
+    message: >
+      {{#success build.status}}
+      Build [{{build.number}}]({{build.link}}) for {{repo.name}} succeeded. Good job.
+      {{else}}
+      Build [{{build.number}}]({{build.link}}) for {{repo.name}} failed. Fix me please.
+      {{/success}}
