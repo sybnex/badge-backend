@@ -14,13 +14,18 @@ steps:
     password:
       from_secret: docker_password
 
-#- name: deploy
-#  image: sybex/badgeservice:1.1.${DRONE_BUILD_NUMBER}
-#  kubernetes_server: https://rancher.julina.ch
+- name: deploy
+  image: sybex/plugin-kubectl
+  settings:
+    kubernetes_server:
+      from_secret: kubernetes_server_url
+    kubernetes_token:
+      from_secret: kubernetes_server_token
+  commands:
+    - kubectl apply -f deployment.yaml
 
-- name: inform
+- name: notify
   image: appleboy/drone-telegram
   token:
     from_secret: pipeline_bot
   to: 146910928
-  

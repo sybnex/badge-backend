@@ -34,7 +34,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: badge
-        image: ${CICD_IMAGE}:${CICD_EXECUTION_SEQUENCE}
+        image: sybex/badgeservice:1.1.${DRONE_BUILD_NUMBER}
         resources:
           limits:
             cpu: 500m
