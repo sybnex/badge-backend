@@ -23,14 +23,18 @@ steps:
       from_secret: kubernetes_server_token
   commands:
     - pwd
-    - ls -l
-    - id
     - env
-    - kubectl apply -f deployment.yaml
+    - cat ~/.kube/config
+    - kubectl apply -f ./deployment.yaml
 
 - name: notify
   image: appleboy/drone-telegram
+  when:
+    status:
+    - success
+    - failure
   settings:
     token:
       from_secret: pipeline_bot
     to: 146910928
+
