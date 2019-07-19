@@ -34,7 +34,7 @@ spec:
         fsGroup: 1000
       containers:
       - name: badge
-        image: sybex/badgeservice:${DRONE_BUILD_NUMBER}
+        image: sybex/badgeservice:1.1.${DRONE_BUILD_NUMBER}
         imagePullPolicy: Always
         resources:
           limits:

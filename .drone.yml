@@ -34,4 +34,3 @@ steps:
     token:
       from_secret: pipeline_bot
     to: 146910928
-
