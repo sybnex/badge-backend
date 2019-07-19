@@ -15,17 +15,15 @@ steps:
       from_secret: docker_password
 
 - name: deploy
-  image: sybex/plugin-kubectl
+  image: sinlead/drone-kubectl
   settings:
     kubernetes_server:
       from_secret: kubernetes_server_url
     kubernetes_token:
       from_secret: kubernetes_server_token
   commands:
-    - pwd
-    - env
     - cat ~/.kube/config
-    - kubectl apply -f ./deployment.yaml
+    - kubectl apply -f deployment.yaml
 
 - name: notify
   image: appleboy/drone-telegram
