@@ -21,4 +21,5 @@ steps:
       from_secret: badge-backend-token
   settings:
     method: PUT
-    urls: https://badge.julina.ch/1f2afea1?token=\$TOKEN&name=version&value=${DRONE_BUILD_NUMBER}&ncolor=grey&vcolor=blue"
+    urls: https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=version&value=${DRONE_BUILD_NUMBER}&ncolor=grey&vcolor=blue"
+    debug: true
