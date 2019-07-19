@@ -8,7 +8,7 @@ steps:
     repo: sybex/badgeservice
     tags:
       - latest
-      - ${DRONE_BUILD_NUMBER}
+      - 1.1.${DRONE_BUILD_NUMBER}
     username:
       from_secret: docker_username
     password:
@@ -20,4 +20,4 @@ steps:
     password:
       from_secret: badge-backend-token
     method: PUT
-    urls: https://badge.julina.ch/1f2afea1?token=${password}&name=version&value=${DRONE_BUILD_NUMBER}&ncolor=grey&vcolor=blue"
+    urls: https://badge.julina.ch/1f2afea1?token=${PLUGIN_PASSWORD}&name=version&value=${DRONE_BUILD_NUMBER}&ncolor=grey&vcolor=blue"
