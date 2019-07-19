@@ -2,24 +2,25 @@ kind: pipeline
 name: badge-backend
 
 steps:
-#- name: build
-#  image: plugins/docker
-#  settings:
-#    repo: sybex/badgeservice
-#    tags:
-#      - latest
-#      - 1.1.${DRONE_BUILD_NUMBER}
-#    username:
-#      from_secret: docker_username
-#    password:
-#      from_secret: docker_password
-
-- name: send
-  image: plugins/webhook
-  environment:
-    TOKEN:
-      from_secret: badge-backend-token
+- name: build
+  image: plugins/docker
   settings:
-    method: PUT
-    urls: https://badge.julina.ch/1f2afea1?token=${TOKEN}&name=version&value=${DRONE_BUILD_NUMBER}&ncolor=grey&vcolor=blue"
-    debug: true
+    repo: sybex/badgeservice
+    tags:
+      - latest
+      - 1.1.${DRONE_BUILD_NUMBER}
+    username:
+      from_secret: docker_username
+    password:
+      from_secret: docker_password
+
+#- name: deploy
+#  image: sybex/badgeservice:1.1.${DRONE_BUILD_NUMBER}
+#  kubernetes_server: https://rancher.julina.ch
+
+- name: inform
+  image: appleboy/drone-telegram
+  token:
+    from_secret: pipeline_bot
+  to: 146910928
+  
