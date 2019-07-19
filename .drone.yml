@@ -22,6 +22,10 @@ steps:
     kubernetes_token:
       from_secret: kubernetes_server_token
   commands:
+    - pwd
+    - ls -l
+    - id
+    - env
     - kubectl apply -f deployment.yaml
 
 - name: notify
