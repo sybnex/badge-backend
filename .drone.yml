@@ -22,7 +22,6 @@ steps:
     kubernetes_token:
       from_secret: kubernetes_server_token
   commands:
-    - cat ~/.kube/config
     - kubectl apply -f deployment.yaml
 
 - name: notify
