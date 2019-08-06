@@ -34,11 +34,11 @@ spec:
         fsGroup: 1000
       containers:
       - name: badge
-        image: sybex/badgeservice:1.1.${DRONE_BUILD_NUMBER}
+        image: sybex/badgeservice:1.2.${DRONE_BUILD_NUMBER}
         imagePullPolicy: Always
         resources:
           limits:
-            cpu: 500m
+            cpu: 200m
             memory: 100Mi
           requests:
             cpu: 100m
