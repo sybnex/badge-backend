@@ -13,7 +13,6 @@ spec:
     targetPort: 5000
   selector:
     app: badge
-  type: NodePort
 ---
 apiVersion: apps/v1
 kind: Deployment
