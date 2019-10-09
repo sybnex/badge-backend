@@ -90,7 +90,7 @@ spec:
   tls:
   - hosts:
     - badge.julina.ch
-    secretName: tls-shell-ingress
+    secretName: tls-badge-ingress
   rules:
   - host: badge.julina.ch
     http:
