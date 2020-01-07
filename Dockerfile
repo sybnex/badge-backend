@@ -21,4 +21,4 @@ RUN chown -R badge /app/ \
 USER badge
 WORKDIR /app
 
-CMD [ "gunicorn", "-w1", "--threads 8", "-b0.0.0.0:5000", "--log-level=INFO", "run:app" ] 
+CMD [ "gunicorn", "-w1", "--threads=8", "-b0.0.0.0:5000", "--log-level=INFO", "run:app" ] 
